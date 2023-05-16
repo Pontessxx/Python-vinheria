@@ -1,20 +1,26 @@
+#importa a 
+import datetime
+
 # Dicionário com os vinhos disponíveis e seus preços
 vinhos = {
-    'Cabernet Franc': 70,
-    'Syrah': 80,
-    'Grenache': 60,
-    'Cabernet Sauvignon': 100,
-    'Pinot Noir': 120,
-    'Tinto Malbec': 80,
-    'Tinto Merlot': 90,
-    'Tinto Syrah': 100,
-    'Chardonnay': 80,
-    'Sauvignon Blanc': 70,
-    'Riesling': 90,
-    'Pinot Grigio': 60
+    'cabernet franc': 70,
+    'syrah': 80,
+    'grenache': 60,
+    'cabernet sauvignon': 100,
+    'pinot noir': 120,
+    'tinto malbec': 80,
+    'tinto merlot': 90,
+    'tinto syrah': 100,
+    'chardonnay': 80,
+    'sauvignon blanc': 70,
+    'riesling': 90,
+    'pinot grigio': 60
 }
 
+
+
 carrinho = []  # Lista para armazenar os itens do carrinho
+#carronho.pop( [intex] ) -> remove item
 #imprime a listas de vinhos
 def listar_vinhos():
     print("\nVINHOS DISPONÍVEIS:\n")
@@ -22,18 +28,18 @@ def listar_vinhos():
 
     for vinho, preco in vinhos.items():
 
-        if vinho in ['Cabernet Franc', 'Syrah', 'Grenache']:
+        if vinho in ['cabernet franc', 'syrah', 'grenache']:
             print(f"{vinho} - R${preco}")
-
+    
     print("\n\tCATEGORIA: TINTOS\n")
 
     for vinho, preco in vinhos.items():
-        if vinho in ['Cabernet Sauvignon', 'Pinot Noir', 'Tinto Malbec', 'Tinto Merlot', 'Tinto Syrah']:
+        if vinho in ['cabernet sauvignon', 'pinot noir', 'tinto malbec', 'tinto merlot', 'tinto syrah']:
             print(f"{vinho} - R${preco}")
     print("\n\tCATEGORIA: BRANCOS\n")
-
+    
     for vinho, preco in vinhos.items():
-        if vinho in ['Chardonnay', 'Sauvignon Blanc', 'Riesling', 'Pinot Grigio']:
+        if vinho in ['chardonnay', 'sauvignon blanc', 'riesling', 'pinot grigio']:
             print(f"{vinho} - R${preco}")
 
     print('\n')
@@ -41,29 +47,34 @@ def listar_vinhos():
 
 
 def comprar_vinhos():
-
-    vinho = input("Digite o nome do vinho que deseja comprar: \t")
-    quantidade = int(input("Digite a quantidade desejada: \t"))
-
-    if vinho in vinhos:
-        preco_total = vinhos[vinho] * quantidade
-        carrinho.append((vinho, quantidade, preco_total))
-        print('________________________________________')
-        print("Item adicionado ao carrinho com sucesso!")
-        print('________________________________________')
-    else:
-        print("Vinho indisponível.")
     
+    vinho = input("Digite o nome do vinho que deseja comprar: \t")
+    vinho = vinho.lower()
+    quantidade = int(input("Digite a quantidade desejada: \t"))
+    if quantidade <=0:
+        print("Erro: Valor inválido no arquivo!")
+    else: 
+        if vinho in vinhos:
+            preco_total = vinhos[vinho] * quantidade
+            carrinho.append((vinho, quantidade, preco_total))
+            print('________________________________________')
+            print("Item adicionado ao carrinho com sucesso!")
+            print('________________________________________')
+        else:
+            print("Vinho indisponível.")
     opcaos()
+
     
 
 
 def visualizar_carrinho():
 
+    print('\n')
     print('_____________________')
     print("CARRINHO DE COMPRAS:")
     print('_____________________')
     print('\n')
+    
 
     total_compra = 0
     for item in carrinho:
@@ -78,44 +89,65 @@ def visualizar_carrinho():
         • Na compra de 4 garrafas,o cliente receberá um desconto de 20%.
         • Na compra de 5 ou mais garrafas,o cliente receberá um descontode 30%.
 
-        """
-        if len(carrinho) >= 5:
-            total_compra *= 0.7
-        elif len(carrinho) >= 4:
-            total_compra *= 0.8
-        elif len(carrinho) >= 3:
-            total_compra *= 0.9
-        print(f"Valor total com desconto: R${total_compra:.2f}")
-    opcao = int(input('Selecione uma opção: \n \t (1)finalizar compra \t(2)listar vinhos \nOpção: '))
+        """ 
+        q = 0
+        for x in carrinho:
+            q += x[1]
+        if q >= 5:
+          total_compra = total_compra - (total_compra * 0.3) #30%
+        elif q == 4:
+            total_compra *= 0.8 #20%
+        elif q == 3:
+            total_compra *= 0.9 #10%
+            
+        print(f"Valor total com desconto: R${total_compra:.2f} \n\n")
+    opcao = int(input('Selecione uma opção: \n \t (1)finalizar compra \t(2)apagar carrinho \nOpção: '))
 
     # Verifica a opção escolhida
     if opcao == 1:
         finalizar_compra()
     elif opcao == 2:
-        listar_vinhos()
+        carrinho.clear()
+        print('_________________')
+        print('CARRINHO APAGADO')
+        print('_________________')
+
+        opcaos()
 
 # def aplicar_desconto(total_compra):
 def finalizar_compra():
     print('_____________________')
-    print("FINALIZAR COMPRA:")
+    print("  FINALIZAR COMPRA:")
     print('_____________________')
+    print('\n') 
     nome = input("Digite o nome completo: ")
     email = input("Digite o email: ")
     cpf = input("Digite o CPF: ")
-    data_nascimento = input("Digite ano da data de nascimento ")
+    data_nascimento_str = input("Digite sua data de nascimento (formato: DD-MM-AAAA): ")
     endereco = input("Digite o endereço (rua, número, complemento): ")
-    print('COMPRA FINALIZADA!')
-    #for data_nacimento in range(0,18):
-       # print('IDADE MENOR')
-        #break
+    
+    data_nascimento = datetime.datetime.strptime(data_nascimento_str, "%d-%m-%Y").date()
+    #data_atual = datetime.date.today()   - não deu certo com esse methodo
+    data_18_anos_atras = datetime.date(2005, 1, 1)
+    if data_nascimento <= data_18_anos_atras:
+        print('__________________')
+        print('COMPRA FINALIZADA!')
+        print('__________________')
+    else:
+        print('\n')
+        print('_____________________')
+        print('  COMPRA CANCELADA!')
+        print('   MENOR DE IDADE ')
+        print('_____________________')
+    
 def opcaos():
     print('\n')
-    opcao = int(input('Selecione uma opção: \n \t (1)comprar_vinhos \t(2)visualizar_carrinho \nOpcao:'))
-
+    opcao = int(input('Selecione uma opção: \n \t (1)continuar comprando \t(2)visualizar carrinho \nOpcao:'))
+    print('\n')
     # Verifica a opção ecolhida
     match opcao:
         case 1:
-            comprar_vinhos()
+            listar_vinhos()
         case 2: 
             visualizar_carrinho()
         case _:                 # default
