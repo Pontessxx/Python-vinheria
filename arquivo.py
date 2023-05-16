@@ -112,7 +112,7 @@ def visualizar_carrinho():
     # Verifica a opção escolhida
     match opcao:
         case 1:
-            finalizar_compra()
+            finalizar_compra(total_compra)
         case 2:
             carrinho.clear()
             print('_________________')
@@ -212,7 +212,7 @@ def gerar_codigo_pagamento():
 
 
 # def aplicar_desconto(total_compra):
-def finalizar_compra():
+def finalizar_compra(total_compras):
     print('_____________________')
     print("  FINALIZAR COMPRA:")
     print('_____________________')
@@ -245,7 +245,8 @@ def finalizar_compra():
         print('\n')
         print('______________________________________________________')
         codigo_pagamento = gerar_codigo_pagamento()
-        print("\nCódigo de pagamento gerado: \t", codigo_pagamento)
+        print("Código de pagamento gerado: \t", codigo_pagamento)
+        print("Valor total do carrinho: R${:.2f}".format(total_compras))
         print('______________________________________________________')
         opcao_um = int(input('Selecione uma opção: \n \t (1)Pagamento efetuado  \t(2)Comprar novamente \nOpcao:'))
         print('\n')
