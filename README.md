@@ -1,2 +1,2 @@
 # Python-vinheria
-Programa criado para uma entrega que deve atingir tais recursos
+O protótipo será desenvolvido com o objetivo de simular a lógica que será utilizada na loja virtual, proporcionando uma visão concreta do funcionamento do carrinho de compras. Essa etapa é crucial para garantir que a solução atenda às necessidades específicas da vinheria. Como protótipo funcional, poderemos validar a experiência do usuário, implementar os cálculos de preços e oferecer uma simulação realista do processo de compra. Isso nos permitirá ajustar e aprimorar a solução antes de avançamos para a fase de desenvolvimento completo.
